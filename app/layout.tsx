@@ -1,7 +1,8 @@
 import "@/app/ui/global.css";
 import { inter } from "@/app/ui/fonts";
 import { Metadata } from "next";
-import SideNav from "@/app/ui/navbar";
+import NavBar from "@/app/ui/navbar";
+import Footer from "./ui/footer";
 
 export const metadata: Metadata = {
   title: {
@@ -19,11 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
-        <div className="">
-          <SideNav />
-        </div>
-        {children}
+      <body
+        className={`${inter.className} antialiased flex flex-col h-screen bg-[url(/home-bg-2.jpg)]`}
+      >
+        <NavBar />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
