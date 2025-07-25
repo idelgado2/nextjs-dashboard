@@ -19,15 +19,9 @@ const links = [
   { name: "Work", href: "/work", icon: BriefcaseIcon },
   {
     name: "Blog",
-    href: "/https://medium.com/@isaacdelgado1994",
+    href: "/blog",
     icon: PencilIcon,
   },
-  {
-    name: "Invoices",
-    href: "/dashboard/invoices",
-    icon: DocumentDuplicateIcon,
-  },
-  { name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
 ];
 
 export default function NavLinks() {
