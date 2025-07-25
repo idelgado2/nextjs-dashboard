@@ -52,7 +52,7 @@ export default function Page() {
         </h1>
         <p className="text-2xl text-white text-left">
           I’ve always loved music. I can't play an instrument to save my life,
-          but I’m deeply passionate about listening to music, collecting it, and
+          but I’m passionate about music appreciation, collecting music, and
           understanding how the industry works behind the scenes.
           <br />
           <br />
