@@ -4,6 +4,8 @@ import {
   HomeIcon,
   DocumentDuplicateIcon,
   InformationCircleIcon,
+  BriefcaseIcon,
+  PencilIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -14,6 +16,12 @@ import clsx from "clsx";
 const links = [
   { name: "Home", href: "/", icon: HomeIcon },
   { name: "About", href: "/about", icon: InformationCircleIcon },
+  { name: "Work", href: "/work", icon: BriefcaseIcon },
+  {
+    name: "Blog",
+    href: "/https://medium.com/@isaacdelgado1994",
+    icon: PencilIcon,
+  },
   {
     name: "Invoices",
     href: "/dashboard/invoices",
