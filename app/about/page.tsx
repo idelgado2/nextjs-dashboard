@@ -10,6 +10,11 @@ import {
 } from "react-icons/fa";
 import { TbFileTypeSql, TbBrandCSharp } from "react-icons/tb";
 import { VscAzure } from "react-icons/vsc";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About",
+};
 
 export default function Page() {
   return (

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -16,18 +16,11 @@ export default function Footer() {
           <FaGithub className="w-6 h-6 hover:text-blue-400 transition-colors" />
         </Link>
         <Link
-          href="https://linkedin.com/in/isaacdelgado"
+          href="https://www.linkedin.com/in/isaac-delgado-881a8691"
           target="_blank"
           aria-label="LinkedIn"
         >
           <FaLinkedin className="w-6 h-6 hover:text-blue-400 transition-colors" />
-        </Link>
-        <Link
-          href="https://twitter.com/isaacdelgado"
-          target="_blank"
-          aria-label="Twitter"
-        >
-          <FaTwitter className="w-6 h-6 hover:text-blue-400 transition-colors" />
         </Link>
       </div>
       <div className="text-xs text-gray-300 text-center md:text-right">

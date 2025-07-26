@@ -6,7 +6,7 @@ import Footer from "./ui/footer";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Acme Dashboard",
+    template: "%s | Isaac Delgado",
     default: "Acme Dashboard",
   },
   description: "The official Next.js Learn Dashboard built with App Router.",
