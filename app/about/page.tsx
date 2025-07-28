@@ -43,6 +43,9 @@ export default function Page() {
                 <br />
                 I’m a co-host of On The Record—the biggest music debate show on
                 the internet—where we debate hot takes to drive converstation.
+                <br />
+                <br />
+                Other things I'm like doing are:
               </p>
             </div>
             <ul className="list-disc pl-8 text-white text-2xl">
