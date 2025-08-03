@@ -58,13 +58,17 @@ async function fetchLatestOnTheRecordVideo() {
     const entry = entryArr[1];
     const idMatch = entry.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
     const titleMatch = entry.match(/<title>(.*?)<\/title>/);
-    // Exclude Shorts by checking for '/shorts/' in the link
     const linkMatch = entry.match(/<link rel="alternate" href="(.*?)"/);
     const link = linkMatch ? linkMatch[1] : "";
-    if (!link.includes("/shorts/")) {
+    const title = titleMatch ? titleMatch[1] : "";
+    // Exclude Shorts and check for "On The Record" in title (case-insensitive)
+    if (
+      !link.includes("/shorts/") &&
+      title.toLowerCase().includes("on the record")
+    ) {
       return {
         id: idMatch ? idMatch[1] : "",
-        title: titleMatch ? titleMatch[1] : "",
+        title,
       };
     }
   }
