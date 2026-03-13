@@ -24,7 +24,7 @@ export default function Page() {
           <h1
             className={`${lusitana.className} text-4xl md:text-5xl font-bold text-white text-center md:text-left`}
           >
-            I'M ISAAC DELGADO
+            I'M ISAAC DELGADO ANOTHER ONE
           </h1>
         </div>
         {/* Right Column: Profile Image */}
