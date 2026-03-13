@@ -1,78 +1,135 @@
-import { lusitana } from "@/app/ui/fonts";
+import type { Metadata } from "next";
 import Image from "next/image";
-import { Metadata } from "next";
+import Link from "next/link";
+import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
 
 export const metadata: Metadata = {
-  title: "Isaac Delgado",
+  title: "Home",
 };
+
+const highlights = [
+  "Software engineer with a systems mindset and a love for elegant product experiences.",
+  "Co-creator of On The Record, a music debate show built for sharp opinions and even sharper editing.",
+  "Writer and builder exploring where technology, storytelling, and music culture overlap.",
+];
+
+const featuredLinks = [
+  {
+    title: "Selected Work",
+    href: "/work",
+    description: "Projects spanning software, editorial thinking, and music media.",
+  },
+  {
+    title: "About Isaac",
+    href: "/about",
+    description: "Background, perspective, and the through-line behind the work.",
+  },
+  {
+    title: "Writing",
+    href: "/blog",
+    description: "Essays and observations on music, products, and the internet.",
+  },
+];
 
 export default function Page() {
   return (
-    <main className="flex flex-col items-center justify-center">
-      {/* Profile Section */}
-      <section className="flex flex-col md:flex-row items-center gap-8 rounded-xl px-8 py-12 w-full max-w-screen-2xl">
-        {/* Left Column: Name, Title, Socials, Contact */}
-        <div className="flex-auto items-center md:items-start gap-4">
-          <h1
-            className={`${lusitana.className} text-4xl md:text-5xl font-bold text-white text-center md:text-left`}
-          >
-            Hi! THIS IS A TEST
-            <span className="wave" role="img" aria-labelledby="wave">
-              👋🏻
-            </span>
-          </h1>
-          <h1
-            className={`${lusitana.className} text-4xl md:text-5xl font-bold text-white text-center md:text-left`}
-          >
-            I'M ISAAC DELGADO ANOTHER ONE TESSSTT
-          </h1>
-        </div>
-        {/* Right Column: Profile Image */}
+    <div className="flex flex-col gap-8 pb-4">
+      <section className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+        <div className="section-card rounded-[36px] px-6 py-10 md:px-10 md:py-14">
+          <p className="eyebrow">Personal site</p>
+          <h1 className="display-title mt-5 text-balance">Isaac Delgado</h1>
+          <p className="lede mt-6 max-w-2xl">
+            I build digital products, create music-centered media, and think a
+            lot about how taste, systems, and storytelling shape the things we
+            remember.
+          </p>
 
-        <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-          {/* Add Hero Images Here */}
-          <Image
-            src="/home-main.svg"
-            width={1000}
-            height={760}
-            className="hidden md:block"
-            alt="Screenshots of the dashboard project showing desktop version"
-          />
-          <Image
-            src="/home-main.svg"
-            width={560}
-            height={620}
-            className="block md:hidden"
-            alt="Screenshot of the dashboard project showing mobile version"
-          />
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/work" className="pill-link bg-[var(--text)] text-white">
+              View selected work
+            </Link>
+            <Link href="/about" className="pill-link">
+              Read my story
+            </Link>
+          </div>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {highlights.map((item) => (
+              <p
+                key={item}
+                className="rounded-[24px] border border-[var(--border)] bg-[var(--surface-strong)] p-5 text-sm leading-7 text-[var(--muted)]"
+              >
+                {item}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        <div className="image-panel min-h-[420px] rounded-[36px] p-4">
+          <div className="relative h-full min-h-[390px] overflow-hidden rounded-[28px]">
+            <Image
+              src="/ontherecord.png"
+              alt="On The Record production still"
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 40vw"
+            />
+          </div>
+          <div className="absolute bottom-8 left-8 right-8 z-10 rounded-[24px] bg-[rgba(255,252,247,0.82)] p-5 backdrop-blur">
+            <p className="eyebrow">Currently focused on</p>
+            <p className="mt-2 text-lg leading-8 text-[var(--text)]">
+              Building polished software by day and shaping music conversations,
+              writing, and internet projects after hours.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="flex flex-col items-center gap-4 rounded-xl px-8 py-10 max-w-screen-2xl w-full mt-10">
-        <h1 className="text-6xl font-semibold text-white text-center py-14">
-          LET ME INTRODUCE MYSELF
-        </h1>
-        <p className="text-2xl text-white text-left">
-          I’ve always loved music. I can't play an instrument to save my life,
-          but I’m passionate about music appreciation, collecting music, and
-          understanding how the industry works behind the scenes.
-          <br />
-          <br />
-          With a background in computer science, I’ve spent the last five years
-          working as a programmer at Chevron. Technology has always fascinated
-          me—especially when it intersects with music.
-          <br />
-          <br />
-          I’m still exploring exactly where I fit, but I know my calling lies in
-          the music industry. Music has played a major role in my life, and I’m
-          driven to help connect artists with the listeners who need to hear
-          them—and vice versa.
-          <br />
-          <br />I also co-founded a music debate show called On The Record—come
-          check it out!
-        </p>
+      <section className="section-card rounded-[36px] px-6 py-10 md:px-10 md:py-14">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="eyebrow">A short introduction</p>
+            <h2 className="section-title mt-4 text-balance">
+              A career in software, pulled forward by a long-running obsession
+              with music.
+            </h2>
+          </div>
+          <div className="editorial-copy space-y-5">
+            <p>
+              I studied computer science, built a career as a programmer at
+              Chevron, and kept finding myself most energized by the places
+              where technical craft meets culture.
+            </p>
+            <p>
+              That curiosity led to side projects, writing, and On The Record,
+              a debate show created to make music conversations sharper, more
+              entertaining, and more intentional.
+            </p>
+            <p>
+              This site is designed as a home for that mix: product work, media
+              experiments, and ideas still taking shape.
+            </p>
+          </div>
+        </div>
       </section>
-    </main>
+
+      <section className="grid gap-6 lg:grid-cols-3">
+        {featuredLinks.map((item) => (
+          <Link
+            key={item.title}
+            href={item.href}
+            className="section-card group rounded-[30px] px-6 py-8 transition-transform duration-200 hover:-translate-y-1"
+          >
+            <p className="eyebrow">Explore</p>
+            <div className="mt-5 flex items-start justify-between gap-4">
+              <h2 className="section-title text-[2.4rem]">{item.title}</h2>
+              <ArrowUpRightIcon className="mt-2 h-5 w-5 shrink-0 text-[var(--accent)] transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </div>
+            <p className="editorial-copy mt-4">{item.description}</p>
+          </Link>
+        ))}
+      </section>
+    </div>
   );
 }

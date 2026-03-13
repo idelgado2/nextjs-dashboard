@@ -1,80 +1,75 @@
 import Parser from "rss-parser";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Writing",
+};
+
+type FeedItem = {
+  link?: string;
+  title?: string;
+  contentSnippet?: string;
+  creator?: string;
+  pubDate?: string;
 };
 
 export default async function BlogPage() {
   const parser = new Parser();
-  const feed = await parser.parseURL(
-    "https://medium.com/feed/@isaacdelgado1994"
-  );
-
-  // Helper to extract image from content:encoded or content
-  function extractImage(item: any) {
-    // Try to find an <img> tag in content:encoded or content
-    const html = item["content:encoded"] || item.content || "";
-    const match = html.match(/<img[^>]+src="([^">]+)"/);
-    return match ? match[1] : null;
-  }
+  const feed = await parser.parseURL("https://medium.com/feed/@isaacdelgado1994");
 
   return (
-    <main className="flex flex-col items-center min-h-screen bg-gradient-to-br to-black py-12 px-4">
-      <div className="w-full max-w-6xl">
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-10 text-center">
-          Medium Blog Posts
-        </h1>
-        <ul className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {feed.items.map((item) => {
-            const imageUrl = extractImage(item);
-            return (
-              <li
-                key={item.link}
-                className="bg-white/10 border border-blue-500 rounded-xl p-0 shadow-lg hover:shadow-2xl transition-shadow flex flex-col overflow-hidden"
-              >
-                {imageUrl && (
-                  <img
-                    src={imageUrl}
-                    alt={item.title}
-                    className="w-full h-48 object-cover"
-                  />
-                )}
-                <a
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 flex flex-col p-6"
-                >
-                  <h2 className="text-2xl font-semibold text-blue-300 hover:text-blue-400 transition-colors mb-2">
-                    {item.title}
+    <div className="grid gap-8">
+      <section className="section-card rounded-[36px] px-6 py-10 md:px-10 md:py-14">
+        <p className="eyebrow">Writing</p>
+        <div className="mt-4 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <h1 className="section-title text-balance">
+            Essays, observations, and music-adjacent internet thoughts.
+          </h1>
+          <p className="editorial-copy">
+            I use writing to slow down and make sense of what I&apos;m noticing,
+            whether that&apos;s a cultural shift, a product pattern, or a music
+            industry idea worth testing.
+          </p>
+        </div>
+      </section>
+
+      <section className="grid gap-5">
+        {feed.items.map((item) => {
+          const typedItem = item as FeedItem;
+
+          return (
+            <a
+              key={typedItem.link}
+              href={typedItem.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="section-card group rounded-[28px] px-6 py-7 transition-transform duration-200 hover:-translate-y-1 md:px-8"
+            >
+              <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-start">
+                <div>
+                  <p className="eyebrow">Article</p>
+                  <h2 className="mt-3 font-serif text-4xl leading-none tracking-[-0.03em] text-[var(--text)]">
+                    {typedItem.title}
                   </h2>
-                  <p className="text-gray-200 mb-4 line-clamp-3 flex-1">
-                    {item.contentSnippet}
+                  <p className="editorial-copy mt-4 max-w-3xl">
+                    {typedItem.contentSnippet}
                   </p>
-                  <div className="flex items-center justify-between text-sm text-gray-400 mt-auto">
-                    <span>
-                      {item.creator && (
-                        <span className="font-medium text-blue-400">
-                          {item.creator}
-                        </span>
-                      )}
-                    </span>
-                    <span>
-                      {item.pubDate &&
-                        new Date(item.pubDate).toLocaleDateString(undefined, {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
-                    </span>
-                  </div>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </main>
+                </div>
+
+                <div className="text-sm uppercase tracking-[0.18em] text-[var(--muted)] md:pt-8">
+                  {typedItem.pubDate
+                    ? new Date(typedItem.pubDate).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
+                    : ""}
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </section>
+    </div>
   );
 }

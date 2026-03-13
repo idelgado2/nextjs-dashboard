@@ -1,230 +1,112 @@
-import { lusitana } from "@/app/ui/fonts";
 import Image from "next/image";
+import type { Metadata } from "next";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Work",
+  title: "Selected Work",
 };
 
 const projects = [
   {
     title: "On The Record",
     description:
-      "A music debate show inspired by First Take and Undisputed on ESPN. We intentionally take opposing sides on trending music topics to spark bold, entertaining, and opinion-driven discussions that explore different perspectives.",
-    image: "/ontherecord-logo.png",
-    link: "https://www.youtube.com/@OnTheRecordShows",
-    tech: ["Final Cut Pro"],
+      "A music debate show built to make hot takes more thoughtful, more entertaining, and more watchable. I help shape the concept, editing, and overall presentation.",
+    image: "/ontherecord.png",
+    href: "https://www.youtube.com/@OnTheRecordShows",
+    tags: ["Media production", "Music culture", "Video editing"],
   },
   {
     title: "Book Digest",
     description:
-      "A web app designed for book worms and researchers to easily collect, categorize, and export their favorite quotes. Simply input quotes from any book, assign them to themes or custom categories, and effortlessly organize your collection. Bookdigest makes it easy to retrieve inspiration, reference key ideas, or share curated insights.",
+      "A web app for capturing and organizing book quotes by theme so readers can build a searchable library of ideas and references.",
     image: "/bookdigest_cover.png",
-    github: "https://github.com/idelgado2/bookdigest",
-    link: "https://idelgado2.github.io/bookdigest/",
-    tech: ["Next.js", "Typescript", "React"],
+    href: "https://idelgado2.github.io/bookdigest/",
+    secondaryHref: "https://github.com/idelgado2/bookdigest",
+    tags: ["Next.js", "TypeScript", "Product design"],
   },
 ];
 
-// Helper to fetch YouTube videos from a channel using RSS feed
-async function fetchYouTubeVideos() {
-  const res = await fetch(
-    "https://www.youtube.com/feeds/videos.xml?user=isaacdelgado9",
-    { next: { revalidate: 3600 } }
-  );
-  const xml = await res.text();
-  // Simple XML parsing for demo (for production, use a robust XML parser)
-  const entries = Array.from(xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g));
-  return entries.map((entry) => {
-    const idMatch = entry[1].match(/<yt:videoId>(.*?)<\/yt:videoId>/);
-    const titleMatch = entry[1].match(/<title>(.*?)<\/title>/);
-    const thumbMatch = entry[1].match(/<media:thumbnail url="(.*?)"/);
-    return {
-      id: idMatch ? idMatch[1] : "",
-      title: titleMatch ? titleMatch[1] : "",
-      thumbnail: thumbMatch ? thumbMatch[1] : "",
-    };
-  });
-}
-async function fetchLatestOnTheRecordVideo() {
-  const res = await fetch(
-    "https://www.youtube.com/feeds/videos.xml?channel_id=UCD4F_zbnLZfUP6AfmmXa0GA",
-    { next: { revalidate: 3600 } }
-  );
-  const xml = await res.text();
-  const entries = Array.from(xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g));
-  for (const entryArr of entries) {
-    const entry = entryArr[1];
-    const idMatch = entry.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
-    const titleMatch = entry.match(/<title>(.*?)<\/title>/);
-    const linkMatch = entry.match(/<link rel="alternate" href="(.*?)"/);
-    const link = linkMatch ? linkMatch[1] : "";
-    const title = titleMatch ? titleMatch[1] : "";
-    // Exclude Shorts and check for "On The Record" in title (case-insensitive)
-    if (
-      !link.includes("/shorts/") &&
-      title.toLowerCase().includes("on the record")
-    ) {
-      return {
-        id: idMatch ? idMatch[1] : "",
-        title,
-      };
-    }
-  }
-  return null;
-}
-
-export default async function Page() {
-  const youtubeVideos = await fetchYouTubeVideos();
-  const latestOnTheRecord = await fetchLatestOnTheRecordVideo();
-
+export default function WorkPage() {
   return (
-    <main className="flex flex-col items-center justify-center">
-      {/* Project Section */}
-      <section className="flex flex-col md:flex-row items-center gap-8 rounded-xl px-8 py-12 w-full max-w-screen-2xl">
-        {/* Left Column: Name, Title, Socials, Contact */}
-        <div className="flex-auto items-center md:items-start gap-4">
-          <h1
-            className={`${lusitana.className} text-4xl md:text-5xl font-bold text-white text-center`}
-          >
-            Projects
+    <div className="grid gap-8">
+      <section className="section-card rounded-[36px] px-6 py-10 md:px-10 md:py-14">
+        <p className="eyebrow">Selected work</p>
+        <div className="mt-4 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <h1 className="section-title text-balance">
+            A mix of software projects and media experiments that reflect how I
+            like to work.
           </h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 w-full py-20">
-            {projects.map((project) => (
-              <div
-                key={project.title}
-                className="flex flex-col bg-white/10 border-2 border-blue-400 rounded-xl shadow-lg overflow-hidden transition-transform hover:-translate-y-2 hover:shadow-2xl"
-              >
-                <div className="relative w-full h-48 bg-black/30 flex items-center justify-center">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
-                <div className="flex flex-col flex-1 p-6">
-                  <h2 className="text-2xl font-bold text-white mb-2">
-                    {project.title}
-                  </h2>
-                  <p className="text-white/90 mb-4 flex-1">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="bg-blue-500/20 border border-blue-400 text-blue-200 text-xs px-2 py-1 rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex gap-4 mt-auto">
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-blue-400 hover:underline"
-                      >
-                        Code
-                        <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-                      </a>
-                    )}
-                    {project.link && (
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-blue-400 hover:underline"
-                      >
-                        Link
-                        <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p className="editorial-copy">
+            I&apos;m drawn to projects with a strong premise and a clear point of
+            view. Some are software-first, some are editorial-first, and the
+            best ones sit somewhere in the middle.
+          </p>
         </div>
       </section>
-      {/* On The Record Latest Episode */}
-      <section className="flex flex-col gap-8 rounded-xl px-8 py-12 w-full max-w-screen-2xl">
-        <h1
-          className={`${lusitana.className} text-3xl md:text-4xl font-bold text-white text-center mb-8`}
-        >
-          Latest{" "}
-          <span className="text-blue-300 font-semibold">On The Record</span>{" "}
-          Episode
-        </h1>
-        {latestOnTheRecord && latestOnTheRecord.id && (
-          <div className="flex flex-col items-center bg-white/10 border-2 border-blue-400 rounded-xl shadow-lg p-6 max-w-5xl mx-auto">
-            <div className="w-full aspect-video bg-black mb-4">
-              <iframe
-                src={`https://www.youtube.com/embed/${latestOnTheRecord.id}`}
-                title={latestOnTheRecord.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
-            </div>
-            <h2 className="text-lg font-semibold text-white text-center">
-              {latestOnTheRecord.title}
-            </h2>
-            <a
-              href={`https://www.youtube.com/watch?v=${latestOnTheRecord.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-300 text-sm mt-2 hover:underline text-center"
-            >
-              Watch on YouTube
-            </a>
-          </div>
-        )}
-      </section>
-      {/* Film Section */}
-      <section className="flex flex-col gap-8 rounded-xl px-8 py-12 w-full max-w-screen-2xl">
-        <h1
-          className={`${lusitana.className} text-4xl md:text-5xl font-bold text-white text-center mb-8`}
-        >
-          Films
-        </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
-          {youtubeVideos.map((video) => (
-            <div
-              key={video.id}
-              className="group rounded-xl overflow-hidden bg-white/10 border-2 border-blue-400 shadow-lg hover:shadow-2xl transition-transform hover:-translate-y-2 flex flex-col"
-            >
-              <div className="w-full aspect-video bg-black">
-                <iframe
-                  src={`https://www.youtube.com/embed/${video.id}`}
-                  title={video.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full"
+
+      <div className="grid gap-6">
+        {projects.map((project) => (
+          <article
+            key={project.title}
+            className="section-card grid gap-6 rounded-[32px] p-4 md:grid-cols-[1.05fr_0.95fr] md:p-6"
+          >
+            <div className="image-panel min-h-[300px] rounded-[28px]">
+              <div className="relative h-full min-h-[300px] overflow-hidden rounded-[24px]">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
-              <div className="p-4 flex-1 flex flex-col">
-                <h2 className="text-lg font-semibold text-white mb-2 line-clamp-2">
-                  {video.title}
+            </div>
+
+            <div className="flex flex-col justify-between px-2 py-3 md:px-4">
+              <div>
+                <p className="eyebrow">Project</p>
+                <h2 className="section-title mt-3 text-[2.6rem]">
+                  {project.title}
                 </h2>
+                <p className="editorial-copy mt-4">{project.description}</p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-[var(--border)] px-4 py-2 text-xs uppercase tracking-[0.18em] text-[var(--muted)]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href={`https://www.youtube.com/watch?v=${video.id}`}
+                  href={project.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-300 text-sm mt-auto hover:underline"
+                  className="pill-link bg-[var(--text)] text-white"
                 >
-                  Watch on YouTube
+                  View project
+                  <ArrowTopRightOnSquareIcon className="ml-2 h-4 w-4" />
                 </a>
+                {project.secondaryHref ? (
+                  <a
+                    href={project.secondaryHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pill-link"
+                  >
+                    View code
+                    <ArrowTopRightOnSquareIcon className="ml-2 h-4 w-4" />
+                  </a>
+                ) : null}
               </div>
             </div>
-          ))}
-        </div>
-      </section>
-    </main>
+          </article>
+        ))}
+      </div>
+    </div>
   );
 }
