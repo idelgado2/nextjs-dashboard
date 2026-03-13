@@ -16,7 +16,7 @@ export default function Page() {
           <h1
             className={`${lusitana.className} text-4xl md:text-5xl font-bold text-white text-center md:text-left`}
           >
-            Hi!{" "}
+            Hi! THIS IS A TEST
             <span className="wave" role="img" aria-labelledby="wave">
               👋🏻
             </span>
